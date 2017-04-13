@@ -71,9 +71,15 @@ class ValueIterationAgent(ValueEstimationAgent):
     """
     if self.mdp.isTerminal(state):
         return None
-    Vo = 0
+    Vk = float("-inf")
+    policy = None
     for action in self.mdp.getPossibleActions(state):
-        Vk = self.getQValue(state,action)
+        Vi = self.getQValue(state,action)
+        if Vi >= Vk:
+            Vk = Vi
+            policy = action
+    return policy
+
 
   def getAction(self, state):
     "Returns the policy at the state (no exploration)."
