@@ -36,7 +36,17 @@ class ValueIterationAgent(ValueEstimationAgent):
     self.iterations = iterations
     self.values = util.Counter() # A Counter is a dict with default 0
      
-    "*** YOUR CODE HERE ***"
+    for i in range(0,self.iterations):
+        updatedValues = util.Counter()
+        for state in self.mdp.getStates():
+            if self.mdp.isTerminal(state):
+                updatedValues[state] = 0  # initialize V*(s) = 0
+            else:
+                Vi = max([self.getQValue(state,action) for action in self.mdp.getPossibleActions(state)])  #Bellman Update
+                updatedValues[state] = Vi
+        self.values = updatedValues
+
+
 
     
   def getValue(self, state):
