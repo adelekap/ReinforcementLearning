@@ -37,6 +37,7 @@ class ValueIterationAgent(ValueEstimationAgent):
     self.values = util.Counter() # A Counter is a dict with default 0
      
     "*** YOUR CODE HERE ***"
+
     
   def getValue(self, state):
     """
@@ -53,8 +54,12 @@ class ValueIterationAgent(ValueEstimationAgent):
       necessarily create this quantity and you may have
       to derive it on the fly.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    Q = 0
+    for Sk,prob in self.mdp.getTransitionStatesAndProbs(state,action):
+        R = self.mdp.getReward(state,action,Sk)
+        U = self.discount*self.values[Sk]
+        Q += (prob * (U + R))
+    return Q
 
   def getPolicy(self, state):
     """
@@ -64,8 +69,11 @@ class ValueIterationAgent(ValueEstimationAgent):
       there are no legal actions, which is the case at the
       terminal state, you should return None.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    if self.mdp.isTerminal(state):
+        return None
+    Vo = 0
+    for action in self.mdp.getPossibleActions(state):
+        Vk = self.getQValue(state,action)
 
   def getAction(self, state):
     "Returns the policy at the state (no exploration)."
