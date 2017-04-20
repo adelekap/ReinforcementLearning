@@ -118,7 +118,8 @@ class QLearningAgent(ReinforcementAgent):
       NOTE: You should never call this function,
       it will be called on your behalf
     """
-    self.qValues[(state,action)] = self.getQValue(state,action) + (self.alpha *(reward + (self.discount * self.getValue(nextState)) - self.getQValue(state,action)))
+    sample = reward + (self.discount * self.getValue(state))
+    self.qValues[(state, action)] = (1 - self.alpha) * getQValue(state, action) + alpha * sample
 
 
 
